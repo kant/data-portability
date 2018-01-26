@@ -60,7 +60,7 @@ public class ServiceProviderRegistry {
 
         for(String enabledService : commonSettings.getServiceProviderClasses()) {
             ServiceProvider serviceProvider = serviceProviderMap.get(enabledService);
-            checkState(serviceProvider != null, "Couldn't find %s", enabledService);
+            checkState(serviceProvider != null, "Couldn't find " + enabledService);
             providerBuilder.put(serviceProvider.getName(), serviceProvider);
             portableDataTypesBuilder.addAll(serviceProvider.getImportTypes());
             portableDataTypesBuilder.addAll(serviceProvider.getExportTypes());
