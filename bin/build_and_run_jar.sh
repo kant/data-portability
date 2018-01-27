@@ -130,12 +130,16 @@ fi
 
 # Compile jar with maven.
 echo -e "\nCompiling and installing...\n"
-gradle build
-gradle publishToMavenLocal
-mvn clean install
+
+gradle wrapper
+./gradlew build
+#gradle build
+#gradle publishToMavenLocal
+#mvn clean install
 echo -e "Packaging...\n"
 
-mvn package -pl $SRC_DIR
+#mvn package -pl $SRC_DIR
+gradle fatjar
 
 read -p "Would you like to run the app jar at this time? (Y/n): " response
 if [[ ! ${response} =~ ^(no|n| ) ]]; then
