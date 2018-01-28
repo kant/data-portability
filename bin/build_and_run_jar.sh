@@ -34,7 +34,6 @@ if [[ $BINARY == "worker" ]]; then
   DEBUG_PORT=5006
 fi
 
-mvn=$(which mvn)|| { echo "Maven (mvn) not found. Please install it and try again." >&2; exit 1; }
 gradle=$(which gradle)|| { echo "Gradle (gradle) not found. Please install it and try again." >&2; exit 1; }
 
 # Copy settings yaml files from ENV/settings/ into $SRC_DIR/src/main/resources/
@@ -128,7 +127,7 @@ else
   echo -e "Copied secrets\n"
 fi
 
-# Compile jar with maven.
+# Compile jar with gradle.
 echo -e "\nCompiling and packaging...\n"
 
 gradle wrapper
