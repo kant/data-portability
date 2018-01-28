@@ -129,21 +129,18 @@ else
 fi
 
 # Compile jar with maven.
-echo -e "\nCompiling and installing...\n"
+echo -e "\nCompiling and packaging...\n"
 
 gradle wrapper
 ./gradlew build
-#gradle build
-#gradle publishToMavenLocal
-#mvn clean install
-echo -e "Packaging...\n"
 
-#mvn package -pl $SRC_DIR
-gradle fatjar
+# TODO: Exit in case of error compiling
 
 read -p "Would you like to run the app jar at this time? (Y/n): " response
 if [[ ! ${response} =~ ^(no|n| ) ]]; then
-  COMMAND="java -jar -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$DEBUG_PORT $SRC_DIR/target/$SRC_DIR-1.0-SNAPSHOT.jar"
+#  COMMAND="java -jar -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$DEBUG_PORT $SRC_DIR/build/libs/$SRC_DIR-1.0-SNAPSHOT.jar"
+ COMMAND="java -jar -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$DEBUG_PORT $SRC_DIR/build/libs/$SRC_DIR-1.0-SNAPSHOT.jar"
+
   echo -e "running $COMMAND"
   $COMMAND
 fi

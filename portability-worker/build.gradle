@@ -1,6 +1,6 @@
 apply plugin: 'java'
-apply plugin: 'maven'
 
+// TODO: Determine how to use versions defined in gradle.properties
 group = 'org.dataportabilityproject'
 version = '1.0-SNAPSHOT'
 
@@ -12,15 +12,28 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
-
-
-repositories {
-        
-     maven { url "https://repo.maven.apache.org/maven2" }
+jar {
+    // TODO: consider fatjar plugin
+    // Add dependencies
+    from ({
+      (configurations.runtime).collect {
+        it.isDirectory() ? it : zipTree(it)
+      }
+    }) {
+        // Exclude signature files to avoid SecurityException
+        exclude '**/META-INF/*.SF'
+        exclude '**/META-INF/*.DSA'
+        exclude '**/META-INF/*.RSA'
+    }
+    manifest {
+      attributes 'Main-Class': 'org.dataportabilityproject.worker.WorkerMain'
+    }
 }
+
 dependencies {
-    compile group: 'org.dataportabilityproject', name: 'portability-core', version:'1.0-SNAPSHOT'
-    compile group: 'com.google.guava', name: 'guava', version:'19.0'
+    compile project(':portability-core')
+		// TODO: Determine how to use versions defined in gradle.properties
+    compile group: 'com.google.guava', name: 'guava', version:'20.0'
     compile group: 'com.flickr4java', name: 'flickr4java', version:'2.16'
     compile group: 'com.google.apis', name: 'google-api-services-calendar', version:'v3-rev236-1.22.0'
     compile group: 'com.google.apis', name: 'google-api-services-gmail', version:'v1-rev62-1.22.0'
